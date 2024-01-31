@@ -1,18 +1,30 @@
-function postObj(obj){
-    const article = document.createElement('div');
-    const title = document.createElement('p');
-    const post = document.createAttribute('p');
-    title.innerHTML = obj.title;
-    post.innerHTML = obj.body;
-
-
+function createNode(element) {
+    return document.createElement(element);
+    
 }
 
-
-
-function t(){
-fetch('https://jsonplaceholder.typicode.com/posts/1')
-      .then(response => response.json())
-      .then(json => console.log(json))
+function append(parent, el) {
+  return parent.appendChild(el);
 }
-t()
+
+function article(){
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then((resp) => resp.json())
+    .then((data)=>{
+        data.forEach(function(elem){
+            const title = createNode('p');
+            const post = createNode('div');
+            title.setAttribute('class','title');
+        post.setAttribute('class','post');
+            title.innerHTML = `Заголовок: ${elem.title}`;
+            post.innerHTML = `Статья: ${elem.body}`;
+            append(document.body,title);
+            append(title,post); 
+        });
+        
+
+
+    })
+    .catch((err)=>console.log(err))
+}
+article();
